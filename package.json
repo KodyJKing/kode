@@ -1,0 +1,21 @@
+{
+  "name": "kode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf lib && rm -rf node_modules && yarn unlink",
+    "setup": "yarn install && yarn run build && yarn unlink; yarn link",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "ava --watch --verbose"
+  },
+  "author": "KJK",
+  "license": "MIT",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "ava": "^1.4.1"
+  }
+}
