@@ -1,2 +1,2 @@
-# glass-chess
-Chess Game built on the Glass Platform
+# kode
+I really need to stop rewriting algorithms.
