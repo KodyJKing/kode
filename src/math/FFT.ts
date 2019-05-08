@@ -7,7 +7,7 @@ import Vector2 from "./Vector2";
  */
 
 // Slow Fourier Discrete Fourier Transform
-// This is serves as a defenition.
+// This is serves as a definition.
 // The FFT should be tested against results from this.
 export function SFT( x: Vector2[], inverse = false ) {
     let X: Vector2[] = []
