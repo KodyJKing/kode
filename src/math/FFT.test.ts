@@ -2,7 +2,6 @@ import test from "ava"
 import Vector2 from "./Vector2";
 import { naiveDFT, naiveFFT, FFT } from "./FFT";
 
-// This is just for visual checks for now.
 test( "DFT comparison", t => {
     let input = [ 1, 2, 3, 4 ].map( x => new Vector2( x, 0 ) )
 
@@ -24,7 +23,6 @@ test( "DFT comparison", t => {
 
     console.log( "INPUT:" )
     print( input )
-    console.log()
 
     let funcs: any[] = [ naiveDFT, naiveFFT, FFT ]
 
