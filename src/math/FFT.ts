@@ -40,7 +40,7 @@ import Vector2 from "./Vector2";
     This is a naive implementation of the Discrete Fourier Transform.
     It serves as a definition. The FFT should be tested against results from this.
 */
-export function SFT( a: Vector2[], inverse = false ) {
+export function naiveDFT( a: Vector2[], inverse = false ) {
     let X: Vector2[] = []
     let n = a.length
     let coefficient = inverse ? 1 / n : 1
@@ -63,7 +63,7 @@ export function SFT( a: Vector2[], inverse = false ) {
     This is a proper FFT but it uses wasteful allocatiton of arrays
     for even and odd coefficients. It is kept for reference.
 */
-export function FFT( a: Vector2[], inverse = false ): Vector2[] {
+export function naiveFFT( a: Vector2[], inverse = false ): Vector2[] {
     let n = a.length
     let coefficient = inverse ? 1 / n : 1
     let angleSign = inverse ? 1 : -1
@@ -96,7 +96,7 @@ export function FFT( a: Vector2[], inverse = false ): Vector2[] {
     return internalFFT( a )
 }
 
-export function OFFT( a: Vector2[], inverse = false ): Vector2[] {
+export function FFT( a: Vector2[], inverse = false ): Vector2[] {
     let N = a.length
     let coefficient = inverse ? 1 / N : 1
     let angleSign = inverse ? 1 : -1
