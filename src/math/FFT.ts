@@ -21,7 +21,7 @@ import Vector2 from "./Vector2";
 
     Because n is a power of two, the x values take the form:
         x = 1^(k/2^m)
-        = 1^(q+r/2^m) // quotient plus remainder form, r = k (mod 2^m)
+        = 1^(q+r/2^m) // quotient remainder form, r = k (mod 2^m)
         = 1^(r/2^m) // Note that 0 <= r < 2^m
 
     When we square x we get 1^(r/2^(m-1)), halving the number of possible values.
@@ -43,7 +43,7 @@ import Vector2 from "./Vector2";
 export function naiveDFT( a: Vector2[], inverse = false ) {
     let X: Vector2[] = []
     let n = a.length
-    let coefficient = inverse ? 1 / n : 1
+    let normalization = Math.sqrt(1 / n)
     let angleSign = inverse ? 1 : -1
     for ( let k = 0; k < n; k++ ) {
         let angle = k / n * Math.PI * 2 * angleSign
@@ -51,7 +51,7 @@ export function naiveDFT( a: Vector2[], inverse = false ) {
         let exponential = new Vector2( 1, 0 )
         let result = new Vector2( 0, 0 )
         for ( let p = 0; p < n; p++ ) {
-            result = result.add( exponential.complexProduct( a[ p ].multiply( coefficient ) ) )
+            result = result.add( exponential.complexProduct( a[ p ].multiply( normalization ) ) )
             exponential = exponential.complexProduct( x )
         }
         X.push( result )
@@ -65,7 +65,7 @@ export function naiveDFT( a: Vector2[], inverse = false ) {
 */
 export function naiveFFT( a: Vector2[], inverse = false ): Vector2[] {
     let n = a.length
-    let coefficient = inverse ? 1 / n : 1
+    let normalization = Math.sqrt( 1 / n )
     let angleSign = inverse ? 1 : -1
 
     function internalFFT( x: Vector2[] ) {
@@ -73,7 +73,7 @@ export function naiveFFT( a: Vector2[], inverse = false ): Vector2[] {
         let halfN = n / 2
 
         if ( n == 1 )
-            return [ x[ 0 ].multiply( coefficient ) ]
+            return [ x[ 0 ].multiply( normalization ) ]
 
         // Wasteful allocation.
         let evens: Vector2[] = []
@@ -98,14 +98,14 @@ export function naiveFFT( a: Vector2[], inverse = false ): Vector2[] {
 
 export function FFT( a: Vector2[], inverse = false ): Vector2[] {
     let N = a.length
-    let coefficient = inverse ? 1 / N : 1
+    let normalization = Math.sqrt( 1 / N )
     let angleSign = inverse ? 1 : -1
 
     function internalFFT( n = N, shift = 0, step = 1 ) {
         let halfN = n / 2
 
         if ( n == 1 )
-            return [ a[ shift ].multiply( coefficient ) ]
+            return [ a[ shift ].multiply( normalization ) ]
 
         let evenFFT = internalFFT( n / 2, shift, step * 2 )
         let oddFFT = internalFFT( n / 2, shift + step, step * 2 )

@@ -14,7 +14,7 @@ test( "DFT comparison", t => {
     let formatSequence = s => s.map( formatNumber ).join( ", " )
     let print = s => console.log( formatSequence( s ) )
 
-    let compare = ( a: Vector2[], b: Vector2[], epsilon = 0.0000001 ) => {
+    let compare = ( a: Vector2[], b: Vector2[], epsilon = 1e-10 ) => {
         for ( let i = 0; i < a.length; i++ )
             if ( Math.abs( a[ i ].subtract( b[ i ] ).length ) > epsilon )
                 return false;
