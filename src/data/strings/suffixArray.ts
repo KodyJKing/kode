@@ -105,7 +105,6 @@ export default function suffixArray( content: string ) {
             return [ 1, 0 ]
         }
 
-
         // Replace character at index with rank of triple at index.
         let rankedStr = contractAndRank( str )
 
@@ -122,9 +121,11 @@ export default function suffixArray( content: string ) {
 
         let sampleIndexToIndex = ( i ) => i < R0.length ? i * 3 : ( i - R0.length ) * 3 + 1
         let nonSampleIndexToIndex = ( i ) => i * 3 + 2
+
+        // Recurse to sort S01.
         let suffixArray01 = suffixArray( R01 ).map( sampleIndexToIndex )
 
-        // Rank the sampled suffixes:
+        // Rank the sampled suffixes.
         let ranks: number[] = new Array( str.length )
         for ( let i = 0; i < suffixArray01.length; i++ )
             ranks[ suffixArray01[ i ] ] = i
