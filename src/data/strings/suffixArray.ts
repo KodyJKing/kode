@@ -38,7 +38,7 @@ function range( n: number ) {
 
 function contractAndRank( str: number[] ) {
     let tripleIndices = range( str.length )
-    // Sort each index lexigraphically by the triples statring at that index.
+    // Sort each index lexigraphically by the triples starting at that index.
     // TODO: Make this radix sort for linear time.
     tripleIndices.sort(
         ( i, j ) => lexCompare3(
