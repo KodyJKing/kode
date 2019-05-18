@@ -36,11 +36,6 @@ function range( n: number ) {
     return result
 }
 
-/*
-    1. Replaces each character with the triple of characters starting at the character.
-    2. Sorts all triples lexicographically.
-    3. Replaces each triple with the rank of the triple in sorted order.
- */
 function contractAndRank( str: number[] ) {
     let tripleIndices = range( str.length )
     // Sort each index lexigraphically by the triples statring at that index.
@@ -110,6 +105,8 @@ export default function suffixArray( content: string ) {
             return [ 1, 0 ]
         }
 
+
+        // Replace character at index with rank of triple at index.
         let rankedStr = contractAndRank( str )
 
         let R0: number[] = []
