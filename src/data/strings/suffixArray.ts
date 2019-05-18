@@ -24,7 +24,7 @@ function lexCompare2( a: number, b: number, x: number, y: number ) {
     return 0
 }
 
-function contractAndRank( str: number[], verbose: boolean ) {
+function contractAndRank( str: number[] ) {
     let indices = range( str.length )
     // TODO: Make this radix sort for linear time.
     indices.sort(
@@ -62,7 +62,7 @@ function range( n: number ) {
 }
 
 export default function suffixArray( content: string ) {
-    function suffixArray( str: number[], verbose = false ): number[] {
+    function suffixArray( str: number[] ): number[] {
         if ( str.length == 1 )
             return [ 0 ]
         if ( str.length == 2 ) {
@@ -71,7 +71,7 @@ export default function suffixArray( content: string ) {
             return [ 1, 0 ]
         }
 
-        let rankedStr = contractAndRank( str, verbose )
+        let rankedStr = contractAndRank( str )
 
         let R0: number[] = []
         let R1: number[] = []
@@ -108,17 +108,6 @@ export default function suffixArray( content: string ) {
             suffixArray2[ i ] = nonSampleIndexToIndex( i )
         suffixArray2.sort( compare22 )
 
-        if ( verbose ) {
-            // console.log(rankedStr)
-            // console.log()
-            // console.log(R01)
-            // console.log(R2)
-            // console.log()
-            // console.log(SA01)
-            // console.log(SA2)
-            // console.log()
-        }
-
         return merge( suffixArray01, suffixArray2, ( i, j ) => {
             if ( i % 3 == 0 )
                 return compare02( i, j )
@@ -128,5 +117,5 @@ export default function suffixArray( content: string ) {
     }
 
     let str = Array.from( content ).map( ( char ) => char.charCodeAt( 0 ) )
-    return suffixArray( str, true )
+    return suffixArray( str )
 }
