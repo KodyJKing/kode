@@ -21,19 +21,19 @@ test( "DFT comparison", t => {
         return true;
     }
 
-    console.log( "INPUT:" )
-    print( input )
+    // console.log( "INPUT:" )
+    // print( input )
 
     let funcs: any[] = [ naiveDFT, naiveFFT, FFT ]
 
     let naiveTransform = naiveDFT( input )
 
     for ( let func of funcs ) {
-        console.log( func.name + ":" )
+        // console.log( func.name + ":" )
         let transform = func( input )
         let inverseTransform = func( transform, true )
-        print( transform )
-        print( inverseTransform )
+        // print( transform )
+        // print( inverseTransform )
         t.assert(
             compare( transform, naiveTransform ),
             "Transform must equal naive DFT."
