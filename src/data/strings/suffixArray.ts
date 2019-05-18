@@ -55,9 +55,9 @@ function contractAndRank( str: number[] ) {
     // Replace each character with the rank the corresponding triple has in sorted order.
     // Equal triples get the same rank.
     let rankedString = new Array( str.length )
-    let c0 = -1
-    let c1 = -1
-    let c2 = -1
+    let c0 = NULL_CHAR
+    let c1 = NULL_CHAR
+    let c2 = NULL_CHAR
     let rank = 0
     for ( let index of tripleIndices ) {
         // Only increment the rank when the triple changes.
