@@ -1,7 +1,7 @@
-import Vector2 from "./Vector2";
-
 /*
-    The Fast Fourier Transform is an efficient implementation of the Discrete Fourier Transform.
+    https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm
+    
+    The Cooley–Tukey Fast Fourier Transform is an efficient implementation of the Discrete Fourier Transform.
     The DFT takes n samples of an n degree polynomial. The coefficients of the polynomial are the input.
     The samples are spread evenly around the complex unit circle. They take for form e^(i2PI*k/n) = 1^(k/n) for k = 0, 1 ... n.
 
@@ -36,6 +36,8 @@ import Vector2 from "./Vector2";
     The total runtime is then O(n log n).
  */
 
+import Vector2 from "./Vector2";
+
 /*
     This is a naive implementation of the Discrete Fourier Transform.
     It serves as a definition. The FFT should be tested against results from this.
@@ -43,7 +45,7 @@ import Vector2 from "./Vector2";
 export function naiveDFT( a: Vector2[], inverse = false ) {
     let X: Vector2[] = []
     let n = a.length
-    let normalization = Math.sqrt(1 / n)
+    let normalization = Math.sqrt( 1 / n )
     let angleSign = inverse ? 1 : -1
     for ( let k = 0; k < n; k++ ) {
         let angle = k / n * Math.PI * 2 * angleSign
