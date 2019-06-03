@@ -1,4 +1,4 @@
-export function merge( arr: any[], low: number, middle: number, high: number ) {
+export function mergeInPlace( arr: any[], low: number, middle: number, high: number ) {
     let swap = ( i, j, li, lj ) => {
         // console.log( "swap " + li + ", " + lj )
         let tmp = arr[ i ]
@@ -51,7 +51,7 @@ export default function mergeSort( arr: any[] ) {
         let middle = Math.ceil( ( low + high ) / 2 )
         _mergeSort( low, middle - 1 )
         _mergeSort( middle, high )
-        merge( arr, low, middle + 1, high + 1 )
+        mergeInPlace( arr, low, middle + 1, high + 1 )
 
         // depth.pop()
     }
