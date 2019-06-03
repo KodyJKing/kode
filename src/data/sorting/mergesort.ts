@@ -30,27 +30,30 @@ export function merge( arr: any[], low: number, middle: number, high: number ) {
         else if ( c > a && c < high && _a > _c )
             swap( a, c++, "a", "c" )
         a++
-        if ( c == a ) c++
-        if ( c == b ) c--
+        if ( c <= a ) c++
+        if ( c >= b ) c--
     }
 
     log()
 }
 
+// An in-place merge sort. This only requires O(1) extra space.
 export default function mergeSort( arr: any[] ) {
-    let depth: string[] = []
+    // let depth: string[] = []
     function _mergeSort( low, high ) {
-        depth.push( "    " )
-        console.log( depth.join( "" ) + [ low, high ] )
+        // depth.push( "    " )
+        // console.log( depth.join( "" ) + [ low, high ] )
+
         if ( low == high ) {
-            depth.pop()
+            // depth.pop()
             return
         }
         let middle = Math.ceil( ( low + high ) / 2 )
         _mergeSort( low, middle - 1 )
         _mergeSort( middle, high )
-        merge( arr, low, middle, high )
-        depth.pop()
+        merge( arr, low, middle + 1, high + 1 )
+
+        // depth.pop()
     }
 
     _mergeSort( 0, arr.length )
