@@ -13,38 +13,39 @@ Proin vitae nunc eu mi venenatis finibus ut ac dui. Nam auctor ipsum enim, ut ma
 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent tincidunt nisi quis porta lacinia. Curabitur nec augue scelerisque, venenatis sem quis, consequat arcu. Proin in nulla tellus. Proin turpis justo, porta id odio vel, consequat facilisis tortor. Etiam tincidunt risus lectus, et suscipit arcu condimentum at. Aliquam euismod felis sed maximus dapibus. Sed eget euismod sem, ut vulputate ex. Integer ornare vulputate eros in congue. Morbi cursus at sapien quis ultrices. Fusce elementum pharetra ipsum vitae malesuada. Aliquam turpis augue, commodo in dapibus ut, lacinia quis nisi. Donec non tellus ornare diam interdum interdum id eu orci. Morbi quis risus nunc. Curabitur tristique ex mauris, id interdum dolor convallis a.
 `
 
-const repeatedLoremIpsum = (() => {
-    let result = [loremIpsum]
-    for (let i = 0; i < 3; i++)
-        result.push(loremIpsum)
-    return result.join("")
-})()
+const repeatedLoremIpsum = ( () => {
+    let result = [ loremIpsum ]
+    for ( let i = 0; i < 3; i++ )
+        result.push( loremIpsum )
+    return result.join( "" )
+} )()
 
-function checkString(text: string, perfTest = false, t: ExecutionContext) {
-    if (perfTest) console.time("DC3")
+function checkString( text: string, perfTest = false, t: ExecutionContext ) {
+    if ( perfTest ) console.time( "DC3" )
     let actual = suffixArray( text )
-    if ( perfTest ) console.timeEnd("DC3")
-    if ( perfTest ) console.time("naive")
+    if ( perfTest ) console.timeEnd( "DC3" )
+    if ( perfTest ) console.time( "naive" )
     let expected = naiveSuffixArray( text )
     if ( perfTest ) console.timeEnd( "naive" )
     if ( perfTest ) console.log()
-    t.assert( actual.toString() == expected.toString() )
+    let content = actual.toString() + "\n" + expected.toString()
+    t.assert( actual.toString() == expected.toString(), content )
 }
 
 test( "0", t => {
     let texts = [
-        "banana",
-        "yabbadabbado",
-        "aaaaa",
-        "cats-cats",
-        "she sells sea shells by the sea shore",
+        // "banana",
+        // "yabbadabbado",
+        // "aaaaa",
+        // "cats-cats",
+        // "she sells sea shells by the sea shore",
         "chat-bhat-ahat-",
-        loremIpsum,
-        repeatedLoremIpsum
+        // loremIpsum,
+        // repeatedLoremIpsum
     ]
 
     for ( let text of texts )
-        checkString(text, true, t)
+        checkString( text, true, t )
 } )
 
 // test( "performance", t => {

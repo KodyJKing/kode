@@ -125,17 +125,18 @@ export default function suffixArray( content: string ) {
 
         // Recurse to sort S01.
         let suffixArray01 = suffixArray( R01 )
-        // console.log( "\n==================================" )
-        // console.log( rankedStr )
-        // console.log( R01 )
-        // console.log( "===" )
-        // console.log( suffixArrayToString2( suffixArray01, R01 ) )
+        console.log( "\n==================================" )
+        console.log( str.join(" ") )
+        console.log( rankedStr.join( " " ) )
+        console.log( R01.join( " " ) )
+        console.log( "======" )
+        console.log( suffixArrayToString2( suffixArray01, R01 ) )
         suffixArray01 = suffixArray01.map( sampleIndexToIndex )
-        // console.log()
-        // console.log( suffixArrayToString2( suffixArray01, rankedStr ) )
-        // console.log()
-        // console.log( suffixArrayToString2( suffixArray01, str ) )
-        // console.log( "==================================\n" )
+        console.log()
+        console.log( suffixArrayToString2( suffixArray01, rankedStr ) )
+        console.log()
+        console.log( suffixArrayToString2( suffixArray01, str ) )
+        console.log( "==================================\n" )
 
         // Rank the sampled suffixes.
         let ranks: number[] = new Array( str.length )
@@ -179,9 +180,9 @@ export default function suffixArray( content: string ) {
 
     // Convert string to number array.
     let str = Array.from( content ).map( ( char ) => char.charCodeAt( 0 ) )
-    str.push( -1 )
-    str.push( -1 )
-    return suffixArray( str ).slice( 2 )
+    // str.push( -1 )
+    // str.push( -1 )
+    return suffixArray( str )//.slice( 2 )
 }
 
 export function naiveSuffixArray( content: string ) {
