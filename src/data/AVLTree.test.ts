@@ -8,14 +8,14 @@ function log( x ) {
 test( "AVLTree", t => {
 
     let tree = AVLTree.create<boolean>()
-    for ( let i = 0; i < 31; i++ )
+    for ( let i = 0; i < 7; i++ )
         tree.set( i, true )
 
     console.log( "Full tree:" )
     tree.print()
 
-    tree.remove( 0 )
-    // tree.remove( 5 )
+    for ( let i = 0; i < 7; i++ )
+        tree.remove( i )
 
     console.log( "Trimmed tree:" )
     tree.print()
