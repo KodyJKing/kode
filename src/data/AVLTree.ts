@@ -1,14 +1,14 @@
 const LEFT = true
 const RIGHT = false
 class AVLTreeNode<T> {
-    protected key: number
-    protected value?: T
-    protected left?: AVLTreeNode<T>
-    protected right?: AVLTreeNode<T>
-    protected height = 1
-    protected size = 0
+    key: number
+    value?: T
+    left?: AVLTreeNode<T>
+    right?: AVLTreeNode<T>
+    height = 1
+    size = 0
 
-    protected constructor( key: number, value?: T ) {
+    constructor( key: number, value?: T ) {
         this.key = key
         this.value = value
     }
@@ -37,7 +37,7 @@ class AVLTreeNode<T> {
         return this
     }
 
-    protected removeSelf() {
+    removeSelf() {
         if ( this.right && this.left ) {
             this.setChild( RIGHT, this.right.promoteMin( this ) )
             return this.balance()
@@ -45,7 +45,7 @@ class AVLTreeNode<T> {
         return this.left || this.right
     }
 
-    protected promoteMin( recipientNode: AVLTreeNode<T> ) {
+    promoteMin( recipientNode: AVLTreeNode<T> ) {
         if ( this.left == null ) {
             recipientNode.key = this.key
             recipientNode.value = this.value
@@ -55,15 +55,15 @@ class AVLTreeNode<T> {
         return this.balance()
     }
 
-    protected getNode( key: number ): AVLTreeNode<T> | undefined {
+    getNode( key: number ): AVLTreeNode<T> | undefined {
         if ( key == this.key ) return this
         return this.getChildForKey( key )?.getNode( key )
     }
 
-    protected getChildForKey( key: number ) { return this.getChild( this.key > key ) }
-    protected setChildByKey( key: number, node?: AVLTreeNode<T> ) { this.setChild( this.key > key, node ) }
-    protected getChild( side: boolean ) { return side ? this.left : this.right }
-    protected setChild( side: boolean, node?: AVLTreeNode<T> ) {
+    getChildForKey( key: number ) { return this.getChild( this.key > key ) }
+    setChildByKey( key: number, node?: AVLTreeNode<T> ) { this.setChild( this.key > key, node ) }
+    getChild( side: boolean ) { return side ? this.left : this.right }
+    setChild( side: boolean, node?: AVLTreeNode<T> ) {
         if ( side )
             this.left = node
         else
@@ -71,11 +71,11 @@ class AVLTreeNode<T> {
         this.onDescendentChange()
     }
 
-    protected onDescendentChange() {
+    onDescendentChange() {
         this.height = Math.max( this.left?.height ?? 0, this.right?.height ?? 0 ) + 1
     }
 
-    protected promoteChild( side: boolean ) {
+    promoteChild( side: boolean ) {
         let promoted = this.getChild( side )
         if ( promoted == null ) throw new Error( "Cannot rotate node. There is no node to promote." )
         let displaced = promoted.getChild( !side )
@@ -84,9 +84,9 @@ class AVLTreeNode<T> {
         return promoted
     }
 
-    protected balanceFactor() { return ( this.left?.height ?? 0 ) - ( this.right?.height ?? 0 ) }
+    balanceFactor() { return ( this.left?.height ?? 0 ) - ( this.right?.height ?? 0 ) }
 
-    protected balance() {
+    balance() {
         let balanceFactor = this.balanceFactor()
         if ( Math.abs( balanceFactor ) > 1 ) {
             let side = balanceFactor > 0
@@ -102,17 +102,26 @@ class AVLTreeNode<T> {
     }
 }
 
-export default class AVLTree<T> extends AVLTreeNode<T> {
-    static create<T>() {
-        return new AVLTree<T>( Infinity, undefined )
+export default class AVLTree<T> {
+    private root?: AVLTreeNode<T>
+
+    get( key: number ) {
+        return this.root?.getNode( key )?.value
     }
 
-    print( dent: string = "" ) {
-        if ( this.left )
-            this.left.print( dent )
+    set( key: number, value: T ) {
+        if ( !this.root ) {
+            this.root = new AVLTreeNode( key, value )
+            return
+        }
+        this.root = this.root.set( key, value )
     }
 
-    protected balance() { return this }
-    protected onDescendentChange() { }
+    remove( key: number ) {
+        this.root = this.root?.remove( key )
+    }
 
+    print() {
+        this.root?.print()
+    }
 }
