@@ -14,8 +14,9 @@ test( "AVLTree", t => {
     console.log( "Full tree:" )
     tree.print()
 
-    for ( let i = 0; i < 7; i++ )
-        tree.remove( i )
+    tree.remove( 0 )
+    // for ( let i = 0; i < 7; i++ )
+    //     tree.remove( i )
 
     console.log( "Trimmed tree:" )
     tree.print()

@@ -12,10 +12,8 @@
   },
   "author": "KJK",
   "license": "MIT",
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
-    "ava": "^1.4.1"
+    "ava": "^3.5.1"
   }
 }

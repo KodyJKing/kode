@@ -6,16 +6,14 @@ class AVLTreeNode<T> {
     protected left?: AVLTreeNode<T>
     protected right?: AVLTreeNode<T>
     protected height = 1
+    protected size = 0
 
     protected constructor( key: number, value?: T ) {
         this.key = key
         this.value = value
     }
 
-    get( key: number ) {
-        let node = this.getNode( key )
-        return node ? node.value : undefined
-    }
+    get( key: number ) { return this.getNode( key )?.value }
 
     set( key: number, value: T ) {
         if ( key == this.key ) {
@@ -24,21 +22,17 @@ class AVLTreeNode<T> {
         }
         let child = this.getChildForKey( key )
         let newChild = child == null ? new AVLTreeNode( key, value ) : child.set( key, value )
-        let side = this.key > key
-        this.setChild( side, newChild )
+        this.setChildByKey( key, newChild )
         return this.balance()
     }
 
     remove( key: number ) {
-        if ( key == this.key ) {
+        if ( key == this.key )
             return this.removeSelf()
-        } else {
-            let child = this.getChildForKey( key )
-            let side = this.key > key
-            if ( child ) {
-                this.setChild( side, child.remove( key ) )
-                return this.balance()
-            }
+        let child = this.getChildForKey( key )
+        if ( child ) {
+            this.setChildByKey( key, child.remove( key ) )
+            return this.balance()
         }
         return this
     }
@@ -63,14 +57,12 @@ class AVLTreeNode<T> {
 
     protected getNode( key: number ): AVLTreeNode<T> | undefined {
         if ( key == this.key ) return this
-        let child = this.getChildForKey( key )
-        if ( child ) return child.getNode( key )
+        return this.getChildForKey( key )?.getNode( key )
     }
 
     protected getChildForKey( key: number ) { return this.getChild( this.key > key ) }
-
+    protected setChildByKey( key: number, node?: AVLTreeNode<T> ) { this.setChild( this.key > key, node ) }
     protected getChild( side: boolean ) { return side ? this.left : this.right }
-
     protected setChild( side: boolean, node?: AVLTreeNode<T> ) {
         if ( side )
             this.left = node
@@ -79,17 +71,8 @@ class AVLTreeNode<T> {
         this.onDescendentChange()
     }
 
-    protected replaceChild( oldChild: AVLTreeNode<T>, newChild?: AVLTreeNode<T> ) {
-        this.setChild( this.key > oldChild.key, newChild )
-    }
-
-    protected getHeight( side: boolean ) {
-        let child = this.getChild( side )
-        return child ? child.height : 0
-    }
-
     protected onDescendentChange() {
-        this.height = Math.max( this.getHeight( LEFT ), this.getHeight( RIGHT ) ) + 1
+        this.height = Math.max( this.left?.height ?? 0, this.right?.height ?? 0 ) + 1
     }
 
     protected promoteChild( side: boolean ) {
@@ -101,19 +84,18 @@ class AVLTreeNode<T> {
         return promoted
     }
 
+    protected balanceFactor() { return ( this.left?.height ?? 0 ) - ( this.right?.height ?? 0 ) }
+
     protected balance() {
-        let heightDiff = this.getHeight( LEFT ) - this.getHeight( RIGHT )
-        let absDiff = Math.abs( heightDiff )
-        if ( absDiff > 1 ) {
-            let side = heightDiff > 0
+        let balanceFactor = this.balanceFactor()
+        if ( Math.abs( balanceFactor ) > 1 ) {
+            let side = balanceFactor > 0
             return this.promoteChild( side )
         }
         return this
     }
 
     print( dent: string = "" ) {
-        // let heightDiff = this.getHeight( LEFT ) - this.getHeight( RIGHT )
-        // console.log( dent + heightDiff )
         console.log( dent + this.key )
         if ( this.left ) this.left.print( dent + "| " )
         if ( this.right ) this.right.print( dent + "| " )
