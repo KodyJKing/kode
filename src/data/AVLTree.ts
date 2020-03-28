@@ -1,3 +1,53 @@
+export default class AVLTree<T> {
+    private root?: AVLTreeNode<T>
+
+    get( key: number ) {
+        return this.root?.getNode( key )?.value
+    }
+
+    set( key: number, value: T ) {
+        if ( !this.root ) {
+            this.root = new AVLTreeNode( key, value )
+            return
+        }
+        this.root = this.root.set( key, value )
+    }
+
+    remove( key: number ) {
+        this.root = this.root?.remove( key )
+    }
+
+    removeRange( min: number, max: number ) {
+        this.root = this.root?.removeRange( min, max )
+    }
+
+    print() {
+        this.root?.print()
+    }
+
+    get size() {
+        return this.root?.size ?? 0
+    }
+
+    *[ Symbol.iterator ]() {
+        if ( this.root )
+            for ( let node of this.root )
+                yield { key: node.key, value: node.value }
+    }
+
+    *keys() {
+        if ( this.root )
+            for ( let node of this.root )
+                yield node.key
+    }
+
+    *values() {
+        if ( this.root )
+            for ( let node of this.root )
+                yield node.value
+    }
+}
+
 const LEFT = true
 const RIGHT = false
 class AVLTreeNode<T> {
@@ -6,11 +56,19 @@ class AVLTreeNode<T> {
     left?: AVLTreeNode<T>
     right?: AVLTreeNode<T>
     height = 1
-    size = 0
+    size = 1
 
     constructor( key: number, value?: T ) {
         this.key = key
         this.value = value
+    }
+
+    *[ Symbol.iterator ]() {
+        if ( this.left )
+            yield* this.left
+        yield this
+        if ( this.right )
+            yield* this.right
     }
 
     get( key: number ) { return this.getNode( key )?.value }
@@ -45,6 +103,16 @@ class AVLTreeNode<T> {
         return this.left || this.right
     }
 
+    removeRange( min: number, max: number ) {
+        if ( min <= this.key )
+            this.setChild( LEFT, this.left?.removeRange( min, max ) )
+        if ( max >= this.key )
+            this.setChild( RIGHT, this.right?.removeRange( min, max ) )
+        if ( min <= this.key && max >= this.key )
+            return this.removeSelf()
+        return this.balance()
+    }
+
     promoteMin( recipientNode: AVLTreeNode<T> ) {
         if ( this.left == null ) {
             recipientNode.key = this.key
@@ -73,11 +141,13 @@ class AVLTreeNode<T> {
 
     onDescendentChange() {
         this.height = Math.max( this.left?.height ?? 0, this.right?.height ?? 0 ) + 1
+        this.size = ( this.left?.size ?? 0 ) + ( this.right?.size ?? 0 ) + 1
     }
 
+    // I know it's standard to call this rotation, but I find this verb much more intuitive.
     promoteChild( side: boolean ) {
         let promoted = this.getChild( side )
-        if ( promoted == null ) throw new Error( "Cannot rotate node. There is no node to promote." )
+        if ( promoted == null ) throw new Error( "Attempted to promote null child." )
         let displaced = promoted.getChild( !side )
         this.setChild( side, displaced )
         promoted.setChild( !side, this )
@@ -99,29 +169,5 @@ class AVLTreeNode<T> {
         console.log( dent + this.key )
         if ( this.left ) this.left.print( dent + "| " )
         if ( this.right ) this.right.print( dent + "| " )
-    }
-}
-
-export default class AVLTree<T> {
-    private root?: AVLTreeNode<T>
-
-    get( key: number ) {
-        return this.root?.getNode( key )?.value
-    }
-
-    set( key: number, value: T ) {
-        if ( !this.root ) {
-            this.root = new AVLTreeNode( key, value )
-            return
-        }
-        this.root = this.root.set( key, value )
-    }
-
-    remove( key: number ) {
-        this.root = this.root?.remove( key )
-    }
-
-    print() {
-        this.root?.print()
     }
 }
