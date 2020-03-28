@@ -31,6 +31,7 @@ export default class PriorityQueue<T> {
 
     pop() {
         if ( this.elements.length == 0 ) return undefined
+        if ( this.elements.length == 1 ) return this.elements.pop()
         let result = this.elements[ 0 ]
         let promoted = this.elements.pop() as T
         this.elements[ 0 ] = promoted

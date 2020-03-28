@@ -14,4 +14,6 @@ test( "pop order", t => {
         t.assert( current <= last )
         last = current
     }
+
+    t.assert( q.pop() == undefined )
 } 
