@@ -1,4 +1,4 @@
-export default class PriorityQueue<T> {
+export default class MaxHeap<T> {
     compare: ( a: T, b: T ) => number
     elements: T[]
 
@@ -65,6 +65,10 @@ export default class PriorityQueue<T> {
 
     isValidIndex( i: number ) {
         return i >= 0 && i < this.elements.length
+    }
+
+    swap( i: number, j: number ) {
+        swap( this.elements, i, j )
     }
 }
 

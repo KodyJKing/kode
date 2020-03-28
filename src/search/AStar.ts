@@ -1,4 +1,4 @@
-import PriorityQueue from "../data/PriorityQueue"
+import MaxHeap from "../data/MaxHeap"
 
 type AStarProblem<S, K> = {
     getNeighbors: ( state: S ) => S[]
@@ -18,11 +18,25 @@ export function AStar<S, K>( problem: AStarProblem<S, K>, origin: S ) {
     } = problem
 
     let closed = new Set<K>()
-    let openQueue = new PriorityQueue<Node<S>>( ( a, b ) => b.expectedNetCost - a.expectedNetCost )
+    let nodes = new Map<K, Node<S>>()
+    let openQueue = new MaxHeap<Node<S>>( ( a, b ) => b.expectedNetCost - a.expectedNetCost )
 
     function closeNode( node: Node<S> ) {
         let k = getKey( node.state )
         closed.add( k )
+        nodes.delete( k )
+        return node
+    }
+
+    function getNode( state: S ) {
+        let k = getKey( state )
+        if ( closed.has( k ) )
+            return undefined
+        let existingNode = nodes.get( k )
+        if ( existingNode )
+            return existingNode
+        let node = new Node( state, getHeuristicCost( state ), Infinity )
+        nodes.set( k, node )
         return node
     }
 
@@ -44,11 +58,15 @@ export function AStar<S, K>( problem: AStarProblem<S, K>, origin: S ) {
             return getPath( bestNode )
         closeNode( bestNode )
         for ( let neighbor of getNeighbors( bestNode.state ) ) {
-            let k = getKey( neighbor )
-            if ( closed.has( k ) )
+            let node = getNode( neighbor )
+            if ( !node )
                 continue
-            let cost = bestNode.costFromOrigin + getCost( bestNode.state, neighbor )
-            openQueue.push( new Node( neighbor, getHeuristicCost( neighbor ), cost, bestNode ) )
+            let newCost = bestNode.costFromOrigin + getCost( bestNode.state, neighbor )
+            if ( newCost < node.costFromOrigin ) {
+                node.parent = bestNode
+                node.costFromOrigin = newCost
+                openQueue.push( node )
+            }
         }
         bestNode = openQueue.pop()
     }

@@ -1,8 +1,8 @@
 import test from "ava"
-import PriorityQueue from "./PriorityQueue"
+import MaxHeap from "./MaxHeap"
 
 test( "pop order", t => {
-    let q = new PriorityQueue<number>( ( a, b ) => a - b )
+    let q = new MaxHeap<number>( ( a, b ) => a - b )
     let count = 100
 
     for ( let i = 0; i < count; i++ )
