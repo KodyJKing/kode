@@ -22,4 +22,4 @@ test( "AStar", t => {
     )
 
     t.deepEqual( result, { path: [ 'a', 'c', 'd', 'e' ], cost: 102 } )
-} 
+} )
