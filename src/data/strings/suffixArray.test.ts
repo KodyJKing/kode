@@ -47,6 +47,7 @@ test( "0", t => {
 
     // for ( let text of texts )
     //     checkString( text, true, t )
+    //t.pass()
 } )
 
 // test( "performance", t => {

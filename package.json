@@ -8,14 +8,13 @@
     "setup": "yarn install && yarn run build && yarn unlink; yarn link",
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "ava --watch --verbose"
+    "test": "ava --watch --verbose",
+    "test-serial": "ava --watch --verbose --serial"
   },
   "author": "KJK",
   "license": "MIT",
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
-    "ava": "^1.4.1"
+    "ava": "^3.5.1"
   }
 }
