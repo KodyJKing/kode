@@ -1,5 +1,5 @@
 import test from "ava"
-import bitfield from "./bitfield"
+import bitfield, { struct } from "./bitfield"
 
 enum Type {
     Empty,
@@ -16,14 +16,23 @@ enum Color {
     Black
 }
 
-let Piece = bitfield( [
-    ["type", 3],
-    ["color", 1],
-    ["moved", 1]
+type piece = struct<"piece">
+
+let str = {
+    type: 3 as Type,
+    color: 1 as Color,
+    moved: 1
+}
+
+let Piece = bitfield<piece>( [
+    [ "type", 3 ],
+    [ "color", 1 ],
+    [ "moved", 1 ]
 ] )
 
 test( "constructor/setComponent", t => {
     let p = Piece.create( Type.King, Color.White, 0 )
+    console.log( p )
 
     t.true( Piece.get.type( p ) === Type.King )
     t.true( Piece.get.color( p ) === Color.White )
